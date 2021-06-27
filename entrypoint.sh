@@ -16,7 +16,6 @@ if [ "${2,,}" == "true" ] ;then
 fi
 
 /tools/dotnet-gitversion /github/workspace $nocache $nofetch /output buildserver > /version.txt; result=$?
-
 buildserver="$(cat /version.txt)"
 
 echo "$buildserver"
@@ -63,6 +62,9 @@ if [ $result -ne 0 ]; then
     echo "Failed to evaluate GitVersion (/output json)"
     exit $result
 fi
+
+# Update files
+/tools/dotnet-gitversion /github/workspace /updateassemblyinfo
 
 json="$(cat /version.json)"
 
